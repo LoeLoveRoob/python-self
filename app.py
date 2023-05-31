@@ -57,8 +57,8 @@ async def ping_server(client: Client, message: Message):
     process = psutil.Process()
     memory_info = process.memory_info().rss  # in bytes
     memory_mb = memory_info / (1024 ** 2)  # convert to MB
-    
-    await message.edit_text(f"`self is online sir!`\nmemory usage: `{memory_mb:.2f} MB`")
+    memory_total = psutil.virtual_memory().total / (1024 ** 2)
+    await message.edit_text(f"**status**: `online`\n**memory total**: `{memory_total:.2f}`\n**memory usage**: `{memory_mb:.2f} MB`")
     
     
 app.start(); print("self is running..."); idle()
