@@ -1,4 +1,4 @@
-from pyrogram import Client, filters
+from pyrogram import Client, filters, idle
 from pyrogram.types import Message
 import psutil
 import os
@@ -7,7 +7,7 @@ ADMIN = os.environ.get("ADMIN") or 799041666
 API_ID   = os.environ.get("API_ID") or 1167061
 API_HASH = os.environ.get("API_HASH") or "4de49642ae630ae385b6c10faa7155be"
 
-tor = {
+proxy = {
     "scheme": "socks5",
     "hostname": "localhost",
     "port": 9150,
@@ -16,9 +16,9 @@ tor = {
 }
 tor = os.environ.get("TOR") or None
 if tor == "True":
-   proxy = tor
+   tor = proxy
 
-app = Client("self-bot", API_ID, API_HASH, proxy=proxy)
+app = Client("self-bot", API_ID, API_HASH, proxy=tor)
 
 @app.on_message(filters.user(ADMIN))
 async def main(client: Client, message: Message):
@@ -57,4 +57,6 @@ async def ping_server(client: Client, message: Message):
     memory_usage = psutil.virtual_memory()
     await message.edit_text(f"`self is online sir!\nmemory usage: {memory_usage}`")
     
-app.run()
+    
+app.start(); print("self is running..."); idle()
+app.stop()
