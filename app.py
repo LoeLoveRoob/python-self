@@ -54,8 +54,11 @@ async def save_message(client: Client, message: Message):
     await message.edit_text("`message has been saved in your Saved Messages!`")
 
 async def ping_server(client: Client, message: Message):
-    memory_usage = psutil.virtual_memory()
-    await message.edit_text(f"`self is online sir!\nmemory usage: {memory_usage}`")
+    process = psutil.Process()
+    memory_info = process.memory_info().rss  # in bytes
+    memory_mb = memory_info / (1024 ** 2)  # convert to MB
+    
+    await message.edit_text(f"`self is online sir!`\nmemory usage: `{memory_mb:.2f} MB`")
     
     
 app.start(); print("self is running..."); idle()
